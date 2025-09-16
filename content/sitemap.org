@@ -1,0 +1,6 @@
+#+TITLE: Sitemap
+
+- [[file:apps.org][apps]]
+- [[file:index.org][index]]
+- posts
+  - [[file:posts/post1.org][post1]]

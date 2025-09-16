@@ -1,0 +1,14 @@
+#+title: Index
+
+
+Check out the [[file:apps.org][apps I use]].
+
+Or [[file:posts/post1.org][a post]] of mine.
+
+
+#+begin_src python
+import math
+math.pi
+#+end_src
+
+#+RESULTS:
