@@ -12,7 +12,7 @@ Here are some more similar examples that come to mind:
 - CMake generating Make files
 - Vim's configuration language Vimscript being surpassed by "Vim9 script"
 
-What these pairs of languages have in common is that a more powerful language is being created to address the limitations of a simpler domain-specific language (DSL).
+What these pairs of languages have in common is that a more powerful language is being created to address the limitations of a simpler [[https://en.wikipedia.org/wiki/Domain-specific_language][domain-specific language]] (DSL).
 
 Consider CSS, which started off as a simple and elegant DSL, more than enough for styling static HTML documents. However, as web applications have increased in complexity and the demands on CSS have grown, its limitations have transformed from a bliss to a curse for web developers.
 For example, you couldn't define variables, which meant that if you had a brand color (=#4A90E2=) that you needed to change, you would have to do a project-wide search and replace. Also, you couldn't write functions, or reusable snippets of code, which led to duplication.
@@ -32,10 +32,11 @@ creates a new language that provides the abstractions necessary to deal with the
 but is forced to make it compile to the DSL for compatibility reasons.
 
 I believe that this trend of wrapping a DSL with a more powerful language
-is a workaround rather than a proper solution, which leads to technical debt.
+is a workaround rather than a proper solution, which leads to [[https://en.wikipedia.org/wiki/Technical_debt][technical debt]].
 The reason for this is that It makes the stack of abstractions grow unnecessarily:
 there are now two languages instead of one
 which need to be maintained and kept compatible.
+This is an instance of [[https://en.wikipedia.org/wiki/No_Silver_Bullet][accidental complexity]] rather than essential complexity.
 
 I think that when writing code in a DSL becomes unwieldy,
 a proper solution is to either update the DSL with the needed abstractions
@@ -43,8 +44,8 @@ or create a new, more powerful language and update the target program to be able
 
 I'm not saying that Pkl, CMake, Sass, etc. are evil and should not be used.
 I recognize that hacks and crutches have a place to exist,
-that there are circumstances such as deadlines
-or programs that can't be refactored and yet are widely-used.
+that there are circumstances such as deadlines,
+backwards compatibility and inertia.
 I just want us to recognize and point out when a perceived solution is in fact a hack
 so that developers don't accidentally normalize them
 and are able to factor in the potential technical debt when considering such solutions.
