@@ -6,7 +6,20 @@
       org-html-head-include-default-style nil
       org-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />"
       org-html-link-up ""
-      org-html-link-home "")
+      org-html-link-home ""
+      org-html-doctype "html5"
+      org-html-html5-fancy t
+      org-html-preamble "
+<nav style='display:flex; justify-content:space-between; padding:0.5em 1em;'>
+  <div>
+  <a href='/'>&lt; Home</a>
+  <a href='/posts'>Posts</a>
+  </div>
+  <div>
+  <a href='https://github.com/shunlog'>My Github</a>
+  </div>
+</nav>")
+
 
 (setq org-export-global-macros
       '(("timestamp" . "@@html:<span class=\"timestamp\">[$1]</span>@@")))
@@ -25,12 +38,7 @@
 
 ;; Define the publishing project
 (let*
-    ((current-path (file-name-directory (or load-file-name buffer-file-name)))
-     (html-preamble "<nav>
-  <a href=\"/\">&lt; Home</a>
-  <a href=\"/posts\">Posts</a>
-</nav>
-<div id=\"updated\">Updated: %C</div>"))
+    ((current-path (file-name-directory (or load-file-name (buffer-file-name)))))
   
   (setq org-publish-project-alist
         `(("root"
@@ -38,8 +46,7 @@
            :base-extension "org"
            :base-directory ,(expand-file-name "./content" current-path)
            :publishing-directory ,(expand-file-name "./public" current-path)
-           :publishing-function org-html-publish-to-html
-           :html-preamble ,html-preamble)
+           :publishing-function org-html-publish-to-html)
           
           ("posts"
            :recursive t
@@ -47,7 +54,6 @@
            :base-directory ,(expand-file-name "./content/posts" current-path)
            :publishing-directory ,(expand-file-name "./public/posts" current-path)
            :publishing-function org-html-publish-to-html
-           :html-preamble ,html-preamble
 
            :auto-sitemap t
            :sitemap-filename "index.org"

@@ -1,11 +1,11 @@
 #+title: On wrapping DSLs with more powerful languages
 
-Recently I discovered about Apple's [[https://pkl-lang.org][Pkl language]] for generating static configuration files such as JSON and YAML. I found the idea ludicrous:
+Recently I discovered Apple's [[https://pkl-lang.org][Pkl language]] for generating static configuration files such as JSON and YAML. I found the idea ludicrous:
 writing code in a powerful language to generate code in a weaker language,
 which is then consumed by a program written in another powerful language.
 I mean, at this point why not get rid of the weaker language altogether
 and just write code in the initial powerful language?
-Why sandwich a weak language in the middle there?
+Why sandwich a weak language in between two powerful ones?
 
 Here are some more similar examples that come to mind:
 - CSS being extended by Sass

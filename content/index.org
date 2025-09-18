@@ -5,7 +5,7 @@ I am really passionate about the craft of computer programming.
 
 I've been actively learning programming for 6 years now.
 I'm working my way through SICP and HTDP,
-and I really enjoying using Racket and functional programming in general,
-although for practical reasons I am using Python in most tasks.
+and I really enjoying using Racket and functional programming in general.
+For day-to-day tasks I prefer Python.
 
 I use Emacs with org-mode to write this blog.
