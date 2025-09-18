@@ -1,11 +1,10 @@
 #+title: artiombn's Blog
 
-Hi, welcome to my blog! I'm a programmer from Moldova.
-I am really passionate about the craft of computer programming.
+Hi, welcome to my blog!
+I am a programmer passionate about my craft.
 
-I've been actively learning programming for 6 years now.
-I'm working my way through SICP and HTDP,
-and I really enjoying using Racket and functional programming in general.
-For day-to-day tasks I prefer Python.
+I'm working my way through [[https://sarabander.github.io/sicp/][SICP]] ([[https://romanbird.github.io/sicp/][guide]]) and [[https://htdp.org/][HTDP]],
+and I really enjoying writing in [[https://racket-lang.org/][Racket]] and functional programming in general.
+Of the mainstream languages, I prefer to use Python.
 
-I use Emacs with org-mode to write this blog.
+I use Emacs with [[https://orgmode.org/][org-mode]] to write this blog.
