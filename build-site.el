@@ -13,7 +13,7 @@
 <nav style='display:flex; justify-content:space-between; padding:0.5em 1em;'>
   <div>
   <a href='/'>&lt; Home</a>
-  <a href='/posts'>Posts</a>
+  <a href='/posts/sitemap.html'>Posts</a>
   </div>
   <div>
   <a href='https://github.com/shunlog'>My Github</a>
@@ -41,7 +41,7 @@
     ((current-path (file-name-directory (or load-file-name (buffer-file-name)))))
   
   (setq org-publish-project-alist
-        `(("root"
+        `(("home"
            :recursive nil
            :base-extension "org"
            :base-directory ,(expand-file-name "./content" current-path)
@@ -56,7 +56,8 @@
            :publishing-function org-html-publish-to-html
 
            :auto-sitemap t
-           :sitemap-filename "index.org"
+           ;; BUG: if sitemap-filename is "index.org", it will not be converted to index.html on the first run
+           :sitemap-filename "sitemap.org"
            :sitemap-title "Posts"
            :sitemap-sort-files anti-chronologically
            :sitemap-format-entry my/org-sitemap-date-entry-format
@@ -67,8 +68,8 @@
            :section-numbers nil
            :time-stamp-file t)
 
-          ("all"
-           :components ("root" "posts")))))
+          ;; ("all"
+          ;;  :components ("home" "posts"))
+          )))
 
-
-(org-publish "all" 't)
+(org-publish-all 't)

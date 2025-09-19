@@ -1,3 +1,0 @@
-#+TITLE: Posts
-
-- {{{timestamp(2025-09-18)}}} [[file:dsl.org][On wrapping DSLs with more powerful languages]]
