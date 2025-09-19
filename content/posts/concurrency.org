@@ -1,0 +1,47 @@
+#+title: Concurrency and parallelism are orthogonal
+#+date: <2025-09-19 Fri>
+
+Concurrency is orthogonal to parallelism, you can have one without the other.
+
+There are many conflicting definitions of concurrency.
+In part this might be because the notion concurrency can have different connotations depending on the field (hardware, OS, software).
+But it might also be the result of "folk wisdom", whereas many people have tried to define concurrency going from their intuition rather than from a rigurous understanding of the subject.
+
+I prefer the definitions collected in [[https://slikts.github.io/concurrency-glossary][this glossary]] because they are quite rigurous and very general, so they can be adapted to the aformentioned fields.
+There, /concurrency/ is defined as
+a way to model computations such that they are /independent/,
+meaning they can be executed in any order with the same outcome.
+The benefit of this definition is that you can see how all the other definitions follow from it. Let's see a few:
+
+#+begin_quote
+Concurrency is when two or more tasks can start, run, and complete in overlapping time periods
+-- [[https://stackoverflow.com/a/1050257][Top answer on StackOverflow]]
+#+end_quote
+
+This definition does not give us the full picture
+because it doesn't specify that the specific periods don't matter.
+However, it is still useful because it helps readers get rid of the assumption that a task has to be executed in its entirety before we can proceed to the next task.
+
+
+* An analogy
+
+I present to you the autographs analogy[fn:1] for understanding concurrency and parallelism:
+
+#+caption: Autographs analogy
+[[../static/autographs_analogy.png]]
+
+Interpretation of the analogy:
+- Kids :: tasks
+- Celebrities signing autographs :: processors executing tasks
+- Kids are arranged in a queue :: the ordering of tasks is specified, the correctness of the outcome depends on this ordering being followed
+- Kids are gathered around the table :: the ordering of tasks does not matter, the outcome will be correct for any ordering
+
+Perhaps a better analogy is needed for the sequential execution,
+one in which the order actually matters.
+In this analogy, even though the kids are ordered in a queue,
+intuitively the order still doesn't matter.
+
+
+* Footnotes
+
+[fn:1] Inspired by [[https://joearms.github.io/published/2013-04-05-concurrent-and-parallel-programming.html][Joe Armstrong's coffee machine analogy]] 

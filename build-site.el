@@ -68,8 +68,11 @@
            :section-numbers nil
            :time-stamp-file t)
 
-          ;; ("all"
-          ;;  :components ("home" "posts"))
-          )))
+          ("org-static"
+           :base-directory ,(expand-file-name "./content/static" current-path)
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+           :publishing-directory ,(expand-file-name "./public/static" current-path)
+           :recursive t
+           :publishing-function org-publish-attachment))))
 
 (org-publish-all 't)
