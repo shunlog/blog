@@ -1,47 +1,259 @@
-#+title: Concurrency and parallelism are orthogonal
+#+title: The best definition of concurrency
 #+date: <2025-09-19 Fri>
 
-Concurrency is orthogonal to parallelism, you can have one without the other.
+#+begin_quote
+If I had more time, I would have written a shorter letter.
+-- [[https://quoteinvestigator.com/2012/04/28/shorter-letter/][Blaise Pascal]]
+#+end_quote
 
-There are many conflicting definitions of concurrency.
-In part this might be because the notion concurrency can have different connotations depending on the field (hardware, OS, software).
-But it might also be the result of "folk wisdom", whereas many people have tried to define concurrency going from their intuition rather than from a rigurous understanding of the subject.
+Most of the definitions of concurrency that I found online are
+imprecise, confusing, and sometimes even contradictory.
+Then I found [[https://slikts.github.io/concurrency-glossary/][this glossary of concurrency terms]] (from here on, "The Glossary")
+which completely enlightened me.
+It has cleared up most of the confusion I had
+and helped me build a coherent mental model of the concepts.
 
-I prefer the definitions collected in [[https://slikts.github.io/concurrency-glossary][this glossary]] because they are quite rigurous and very general, so they can be adapted to the aformentioned fields.
-There, /concurrency/ is defined as
-a way to model computations such that they are /independent/,
-meaning they can be executed in any order with the same outcome.
-The benefit of this definition is that you can see how all the other definitions follow from it. Let's see a few:
+In this post I'll go through my frustrating experience of learning concurrency
+(which I dare to guess is pretty common),
+and try to guide through the definitions from The Glossary.
+
+* A wrong understanding concurrency
+
+My previous (*WRONG*) understanding of concurrency went something like this:
+- Parallelism is when you execute more than one task at the same time
+- Concurrency is when you execute tasks such that they
+  *appear* to be executed at the same time
+  while not necessarily being executed in parallel;
+
+Clearly, by this definition concurrency is just a union of two techniques:
+- parallel execution
+- time slicing (preemption)
+
+This led me to reason that concurrency implies parallelism but not vice versa,
+i.e. you can have concurrency without parallelism
+but you can't have parallelism without concurrency.[fn:1]
+
+This incorrect understanding made concurrency and related topics
+very confusing to me, and I had a difficult time sorting this stuff out in my head.
+
+This understanding of concurrency seems to be quite popular though
+judging by the fact that it is [[https://stackoverflow.com/a/1050257][the top answer in a StackOverflow thread]]
+with over 1.8k upvotes.
+But we'll get to it later.
+
+* A better definition of concurrency
+
+Join me now, then, for an eye-opening definition of concurrency presented in [[https://slikts.github.io/concurrency-glossary/][The Glossary]]:
+#+begin_quote
+Concurrency is about /independent/ computations that can be executed in an arbitrary order with the same outcome. The opposite of concurrent is sequential, meaning that sequential computations depend on being executed step-by-step to produce correct results.
+#+end_quote
+
+/Ahh/, like a breath of fresh air!
+
+Right off the bat, notice that in this definition,
+concurrency has an entirely different essence:
+it is *not* /a way of executing/ tasks (i.e. a technique),
+rather, it is /a property/ of a set of tasks in relation to one another.
+In other words, we don't speak about "executing tasks concurrently",
+instead we speak of the tasks /being/ concurrent, or independent.
+
+Pay attention to the key term "independent".
+Indeed, in [[https://www.researchgate.net/publication/241111987][the article]] linked in The Glossary,
+"Programming Paradigms for Dummies" by Peter Van Roy
+(which is great and you must read! [fn:2]),
+"independence" is used as a synonym for concurrency.
+
+Note that independence (concurrency) of a set of tasks is not binary
+but rather exists on a spectrum:
+- On one end, we have completely *independent* (concurrent) tasks
+  which require no interaction between each other
+  (problems that can be split into such tasks are called /embarassingly parallel/)
+- On the other end, we have *sequential* tasks,
+  which must be executed step-by-step, in a specific order,
+  thus are completely /interdependent/
+- In between, tasks are *partially independent*,
+  but they have some degree of interdependence
+
+What exactly does it mean for a task to depend on another?
+Well, I haven't quite figured this out yet,
+but it's all in The Glossary.
+The simplest example of dependency though is when a task depends on the result of another.
+
+When the interaction between interdependent tasks is well-defined in the model,
+it is called /communication/ (e.g. shared memory, message passing)[fn:3].
+
+Now look at this:
+#+begin_quote
+Concurrent programming means factoring a program into independent modules or units of concurrency.
+#+end_quote
+I think we should avoid saying "execute X and Y concurrently"
+and instead say "write a concurrent program that does X and Y"
+to emphasize that "concurrency" is a /property/ of tasks, not a technique.
+
+Now let's continue to parallelism:
+#+begin_quote
+Parallelism refers to executing multiple computations at the same time, while serial execution is one-at-a-time. Parallelization and serialization refer to composing computations either in parallel or serially.
+
+The colloquial meanings of "concurrent" and "parallel" are largely synonymous, which is a source of significant confusion that extends even to computer science literature, where concurrency may be misleadingly described in terms that imply or explicitly refer to overlapping lifetimes.
+#+end_quote
+
+I /love/ it when after long hours of frustration I stumble upon an article
+that acknowledges that there is confusion out there and proceeds to sort things out.
+
+Van Roy's article delivers the final blow to put an end to all confusion:
+#+begin_quote
+Concurrency and parallelism are orthogonal:
+it is possible to run concurrent programs on a single processor
+(using preemptive scheduling and time slices)
+and to run sequential programs on multiple processors
+(by parallelizing the calculations).
+#+end_quote
+
+So there you go, my old ideas about concurrency implying parallelism
+got knocked out the window,
+and in its place a beautiful model emerged,
+shining with abstract purity and generality.
+
+#+caption: Examples showing that concurrency and parallelism are orthogonal
+|                    | Sequential tasks    | Concurrent tasks                   |
+|--------------------+---------------------+------------------------------------|
+| Serial execution   | regular programming | time slicing on a single processor |
+| Parallel execution | [[https://en.wikipedia.org/wiki/Single_instruction,_multiple_data][SIMD]]                | threads running in parallel        |
+
+
+* Analyzing misleading definitions from the web
+
+Although the new definition of concurrency is fundamentally different,
+you can see how most other definitions follow from it. Let's see a few:
 
 #+begin_quote
 Concurrency is when two or more tasks can start, run, and complete in overlapping time periods
 -- [[https://stackoverflow.com/a/1050257][Top answer on StackOverflow]]
 #+end_quote
 
-This definition does not give us the full picture
-because it doesn't specify that the specific periods don't matter.
-However, it is still useful because it helps readers get rid of the assumption that a task has to be executed in its entirety before we can proceed to the next task.
+I believe this definition is equivalent to the one from The Glossary.
+Indeed, if two tasks are independent and can be run in any order,
+then it follows that they can be sliced and interleaved using the time slicing technique.
 
+However, you can see how it hints heavily at the idea of time slicing,
+which might confuse some to believe that concurrency is about time slicing,
+whereas in fact the two ideas are orthogonal.
+Which is why I don't like it as an introductory definition of concurrency.
+I think the relation between concurrency and the technique of time slicing
+is better made explicit through a statement like this:
+"Concurrent tasks can be executed seemingly in parallel
+using the technique of time slicing".
 
-* An analogy
+Also, I think it doesn't extend well to capture the idea of partially interdependent tasks.
 
-I present to you the autographs analogy[fn:1] for understanding concurrency and parallelism:
+Here is another one from the same StackOverflow thread, but written as a comment to the question, which didn't stop it from getting 450 upvotes:
+#+begin_quote
+short answer: Concurrency is two lines of customers ordering from a single cashier (lines take turns ordering); Parallelism is two lines of customers ordering from two cashiers (each line gets its own cashier).
+-- Comment on the same [[https://stackoverflow.com/questions/1050222/what-is-the-difference-between-concurrency-and-parallelism][SO question]]
+#+end_quote
 
-#+caption: Autographs analogy
+This analogy doesn't explain concurrency,
+it explains *time slicing*.
+Replace the word "concurrent" with "serial, but using time slicing",
+and the analogy becomes correct.
+
+Again, concurrency and time slicing certainly are good friends
+and often go hand in hand.
+But if we want to avoid confusion, we must be rigorous about what is what.
+
+Interestingly, this analogy was presented [[https://joearms.github.io/published/2013-04-05-concurrent-and-parallel-programming.html][on Joe Armstrong's blog]],
+one of the fathers of Erlang, a language that is primarily about concurrency.
+Granted, it did generate quite a heated conversation,
+which might have been Armstrong's goal with this post.
+
+#+caption: Joe Armstrong's coffee machine analogy
+[[https://joearms.github.io/images/con_and_par.jpg]]
+
+An improvement on this analogy would be to present people in an unordered crowd
+rather than in a queue, as I've tried doing here:
+#+caption: My autographs analogy
 [[../static/autographs_analogy.png]]
 
-Interpretation of the analogy:
-- Kids :: tasks
-- Celebrities signing autographs :: processors executing tasks
-- Kids are arranged in a queue :: the ordering of tasks is specified, the correctness of the outcome depends on this ordering being followed
-- Kids are gathered around the table :: the ordering of tasks does not matter, the outcome will be correct for any ordering
+It represents concurrency without parallelism with kids crowded around a table for autographs:
+it doesn't matter in what order they go, so they are independent,
+and the celebrity can only sign one autograph at a time, so it's serial.
+To add parallelism, we simply create a clone of the celebrity.
 
-Perhaps a better analogy is needed for the sequential execution,
-one in which the order actually matters.
-In this analogy, even though the kids are ordered in a queue,
-intuitively the order still doesn't matter.
+However, this analogy is not perfect either.
+What in this analogy is telling us that the kids standing in the queue are actually interdependent?
+Logically speaking, it doesn't matter in what order the kids will get their autographs,
+so they are still independent, even though they are standing in a queue[fn:4].
 
+* My tutorial on concurrency
+
+I like the time slicing diagrams,
+so I tried try to adapt them to our new definition of concurrency.
+In this tutorial, two tasks are sequential if they are locked to each other,
+and concurrent otherwise.
+Parallelism is self-explanatory.
+
+#+caption: A tutorial on concurrency and parallelism
+[[../static/concurrency_tutorial.png]]
+
+
+* Why are there so many definitions?
+
+One reason why the misleading definitions and analogies exist
+is that concurrency is implemented in different ways depending on the level.
+For example, in the world of Operating Systems,
+concurrency is represented by threads and time slicing.
+In the software engineering world, it is represented by coroutines.
+Distributed systems need study concurrency more in-depth,
+so they will find the correct definition very useful though.
+
+Another reason is that an accurate and general definition of concurrency
+(like the one from The Glossary)
+might seem a bit too abstract for some people.
+They might prefer a simple but imprecise analogy
+because it gives them that feeling of intuitive understanding.
+
+However, I believe that such hand-wavy definitions
+can only give you a partial understanding at best,
+and a completely wrong understanding at worst,
+so they are not good enough by themselves
+(they can still be used as stepping stones).
+Any programmer who is serious about his craft will not stop at flimsy analogies
+but will instead keep digging,
+progressing from simpler definitions to more rigorous ones,
+until he finds the single source of truth
+and is able to grasp it and build a correct understanding of the topic.
+
+The Glossary contains the best definitions I've found so far,
+but as the author points out, it is just an "informal top-level overview",
+so we have to keep digging.
 
 * Footnotes
 
-[fn:1] Inspired by [[https://joearms.github.io/published/2013-04-05-concurrent-and-parallel-programming.html][Joe Armstrong's coffee machine analogy]] 
+[fn:1] After all, if a thing *appears* to be a certain way,
+then it either *truly* is that way,
+or it is not that way,
+but we *perceive* it to be that way (because of an illusion or something),
+thus "appearing to be a certain way" is a proper superset
+of "truly being a certain way". QED.
+
+[fn:2] In fact, the author wrote a book
+titled [[https://en.wikipedia.org/wiki/Concepts,_Techniques,_and_Models_of_Computer_Programming]["Concepts, Techniques, and Models of Computer Programming"]]
+which from a quick glance is very based in the same way as SICP.
+[[https://news.ycombinator.com/item?id=18383531][Looks like]] it puts an end to the dumb wars of paradigms a-la "FP vs. OOP"
+by seeing the use-case for each
+-- [[https://webperso.info.ucl.ac.be/~pvr/book.html]["More is not better (or worse) than less, just different"]]
+(but it agrees that FP should be the default, which makes me fall in love).
+Will definitely give it a read.
+
+[fn:3] If the interaction between tasks is not well-defined,
+then I guess the program can not be proven correct
+and is likely to have heisenbugs.
+
+[fn:4] This could be solved if instead of autographs,
+for example, the problem were to rank the kids by height.
+If we admit that the processor (the table) is simply assigning a number to each kid
+and then incrementing it,
+then the order in which the kids came up to the table would indeed matter
+(they would have to be sorted by height),
+and we could say they are sequential.
+But this doesn't sound like a very intuitive analogy.
