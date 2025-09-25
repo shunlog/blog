@@ -3,6 +3,6 @@
 rm -rf public
 emacsclient -e "(load-file \"build-site.el\")" &&
 ./publish
-git add . ; git commit -m 'auto'
+git add . ; git commit -m 'auto' ; git push
 
 
