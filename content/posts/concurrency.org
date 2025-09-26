@@ -328,3 +328,7 @@ then the order in which the kids came up to the table would indeed matter
 (they would have to be sorted by height),
 and we could say they are sequential.
 But this doesn't sound like a very intuitive analogy.
+
+* Bibliography
+
+#+print_bibliography:
