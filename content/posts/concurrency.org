@@ -1,46 +1,66 @@
-#+title: The best definition of concurrency
+#+title: Concurrency and parallelism are orthogonal
 #+date: <2025-09-19 Fri>
+#+bibliography: bibliography.bib
 
-#+begin_quote
-If I had more time, I would have written a shorter letter.
--- [[https://quoteinvestigator.com/2012/04/28/shorter-letter/][Blaise Pascal]]
-#+end_quote
+The best way to learn concurrency that I've found so far is by reading these two resources:
+- [[https://slikts.github.io/concurrency-glossary/][This glossary of concurrency terms]] by Reinis Ivanovs (slikts) [cite:@sliktsConcurrencyGlossary]
+- [[https://www.researchgate.net/publication/241111987][The article "Programming Paradigms for Dummies"]] by Peter Van Roy [cite:@VanRoyParadigms]
 
-In my first few years of learning programming,
-I only had to deal with sequential programs.
-I disregarded the topics of multi-threading and async/await
-whenever I came across them,
-thinking they were merely another way in which programmers can waste time
-to do premature performance optimizations.
-But I was wrong, concurrency is not just about gaining a 4x speed-up using your multi-core processor,
-it has many more uses (e.g. modeling independent entities from the real world),
-and sometimes is simply unavoidable (e.g. in network applications).
-
-Eventually I was finally persuaded to learn about concurrency
-and, as programmers often do,
-I started googling for "quick guides", thinking it will take me a few hours tops.
-Sure.
-It wasn't until two years later when I finally got a solid grasp on it.
-
-The more I read explanations and analogies online,
-the more confused I was.
-How is concurrency different from parallelism?
-How is it related to threads and processes?
-Is concurrency about time scheduling?
-
-Then I randomly stumbled upon [[https://slikts.github.io/concurrency-glossary/][this glossary of concurrency terms]]
-(from here on, "The Glossary")
-and found it absolutely enlightening.
-It had cleared up the mess in my head
-and helped me build a coherent mental model
-of all things concurrency.
-Now I think that most analogies and definitions found online
-are imprecise, confusing, and sometimes even contradictory.
+Here are the main points that were new to me
+and helped me sort out the mess in my head:
+- A synonym for the concept of concurrency is /independence/
+- Concurrency is not about /how/ tasks are executed
+  (e.g. using preemption, time slicing, etc.),
+  but parallelism is
+- Rather, concurrency (independence)
+  is about the degree of dependency between tasks
+- The opposite of concurrent is sequential (completely dependent tasks)
+- The opposite of parallel is serial
+- Concurrency and parallelism are completely orthogonal
 
 In this post I'll vent about my frustrating experience of learning concurrency
 (which I dare to guess is pretty common),
-and will try to guide you through the definitions from The Glossary,
-which, for simplicity, I'll be calling "the correct definitions" in this article.[fn:1]
+and try to guide you through the linked resources.
+
+* My frustrating experience of learning concurrency
+
+At some point in my journey of learning programming
+I had to learn the concept of concurrency.
+As programmers often do,
+I started by googling for
+a quick tutorial on Python's =threading= library
+and reading the explanations of concurrency
+like the ones in this Stack Overflow thread.
+
+I had a difficult time figuring it out.
+What is the relationship between concurrency and parallelism?
+How is it related to threads and processes?
+Is concurrency about preemption and time scheduling?
+The more I read different explanations, definitions, and analogies,
+the more confused I was.
+
+Then I randomly stumbled upon
+a glossary of concurrency terms [cite:@sliktsConcurrencyGlossary]
+and found it absolutely enlightening.
+It had cleared up the mess in my head
+and I could finally answer all those questions.
+
+The biggest issue
+that makes figuring out concurrency difficult
+is that there are quite a few *different* meanings of "concurrency"
+floating around in the programming community.
+
+Consider that each meaning can be formulated in many ways,
+that the explanations can approach from many different angles,
+and that the analogies for the fundamentally different meanings
+sound very similar to each other.
+Thus, an unsuspecting beginner is doomed to try to
+make sense of similar but contradicting explanations
+because, unbeknownst to him, they were explaining fundamentally different things.
+
+The third issue is that the term "concurrency" itself is an unfortunate one.
+According to the dictionary, "concurrent" is basically a synonym for "parallel",
+which is not at all the case for the programming concept of concurrency.
 
 * A wrong understanding concurrency
 
@@ -281,11 +301,6 @@ so we have to keep digging.
 (which is great and you must read! [fn:3]),
 "independence" is used as a synonym for "concurrency".
  
-[fn:1] Of course, there are no correct definitions of concurrency.
-Programmers are still arguing on this decades-old topic for a reason.
-However, for myself, I will consider them correct
-because they are just so much better than anything else I've found so far.
-
 [fn:2] After all, if a thing *appears* to be a certain way,
 then it either *truly* is that way,
 or it is not that way,
