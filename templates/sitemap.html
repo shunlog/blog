@@ -19,7 +19,7 @@
 </ul>
 
 <h2>Posts</h2>
-<ul>
+<ul class="post-list">
   {% for page in posts.pages %}
   <li><span class="timestamp">[{{ page.date }}]</span> <a href="{{ page.permalink }}">{{ page.title }}</a></li>
   {% endfor %}

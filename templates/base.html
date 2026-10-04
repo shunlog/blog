@@ -4,21 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}{{ config.title }}{% endblock title %}</title>
-<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap">
+<link rel="stylesheet" href="{{ get_url(path='style.css') }}">
 </head>
 <body>
-<nav style="display:flex; justify-content:space-between; padding:0.5em 1em;">
-  <div>
-    <a href="{{ config.base_url }}/">&lt; Home</a>
-    <a href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
-    <a href="{{ get_url(path='@/sitemap.md') }}">Sitemap</a>
-  </div>
-  <div>
-    <a href="https://github.com/shunlog">My Github</a>
-  </div>
-</nav>
-<div id="content" class="content">
+<header class="site-header">
+  <nav class="site-nav">
+    <div>
+      <a href="{{ config.base_url }}/">&lt; Home</a>
+      <a href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
+      <a href="{{ get_url(path='@/sitemap.md') }}">Sitemap</a>
+    </div>
+    <div>
+      <a href="https://github.com/shunlog">My Github</a>
+    </div>
+  </nav>
+</header>
+<main id="content" class="content">
 {% block content %}{% endblock content %}
-</div>
+</main>
 </body>
 </html>

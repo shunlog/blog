@@ -1,0 +1,403 @@
+/* ==========================================================================
+   artiombn's blog — base stylesheet
+   --------------------------------------------------------------------------
+   A minimal, readable starting point. Nearly everything you'll want to tweak
+   lives in the "design tokens" block below. Component styles come after.
+
+   References:
+     - Modern CSS reset ........ https://piccalil.li/blog/a-more-modern-css-reset/
+     - Fluid type/space scales . https://utopia.fyi/
+     - Modern Font Stacks ...... https://modernfontstacks.com/
+     - WCAG 2.2 contrast ....... https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design tokens
+   -------------------------------------------------------------------------- */
+:root {
+  color-scheme: light dark;
+
+  /* Typography ---------------------------------------------------------- */
+  /* Merriweather is a large-x-height screen serif; falls back gracefully. */
+  --font-body: "Merriweather", Georgia, Cambria, "Times New Roman", serif;
+  --font-heading: "Merriweather", Georgia, Cambria, serif;
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  /* Fluid type scale — roughly a 1.2–1.25 ratio, clamped to the viewport. */
+  --step--1: clamp(0.83rem, 0.80rem + 0.15vw, 0.94rem);
+  --step-0: clamp(0.95rem, 0.90rem + 0.25vw, 1.06rem); /* body copy */
+  --step-nav: clamp(1.05rem, 1.00rem + 0.30vw, 1.20rem); /* navbar */
+  --step-1: clamp(1.15rem, 1.05rem + 0.50vw, 1.38rem);
+  --step-2: clamp(1.40rem, 1.22rem + 0.90vw, 1.75rem);
+  --step-3: clamp(1.70rem, 1.42rem + 1.40vw, 2.25rem);
+  --step-4: clamp(2.00rem, 1.60rem + 2.00vw, 2.80rem); /* h1 */
+
+  /* Spacing scale ------------------------------------------------------- */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* Layout -------------------------------------------------------------- */
+  /* ~40rem with the body font lands around 65–72 characters per line. */
+  --content-width: 56rem;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --radius: 0.375rem;
+
+  /* Colors — light mode ------------------------------------------------ */
+  --color-bg: #fcfcfa;
+  --color-surface: #f2f2ef;
+  --color-text: #1b1b1b;
+  --color-muted: #5a5a5a;
+  --color-border: #dcdcd6;
+  --color-accent: #14508f;
+  --color-accent-hover: #0e3a68;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #16161a;
+    --color-surface: #212127;
+    --color-text: #e8e6e1;
+    --color-muted: #a6a49f;
+    --color-border: #34343c;
+    --color-accent: #8ab4f8;
+    --color-accent-hover: #b0c9fb;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.65;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+dd {
+  overflow-wrap: break-word;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Layout
+   -------------------------------------------------------------------------- */
+.site-header {
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.site-nav {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding: var(--space-sm) var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-md);
+  font-family: var(--font-ui);
+  font-size: var(--step-nav);
+}
+
+.site-nav a {
+  color: var(--color-text);
+  text-decoration-color: transparent;
+}
+
+.site-nav a:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
+.site-nav > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.content {
+  width: 100%;
+  max-width: var(--content-width);
+  margin-inline: auto;
+  padding: var(--space-2xl) var(--gutter) var(--space-3xl);
+  flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   4. Typography
+   -------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--step-4);
+  margin-block: 0 var(--space-md);
+}
+h2 {
+  font-size: var(--step-2);
+  margin-block: var(--space-2xl) var(--space-sm);
+}
+h3 {
+  font-size: var(--step-1);
+  margin-block: var(--space-xl) var(--space-xs);
+}
+h4 {
+  font-size: var(--step-0);
+  margin-block: var(--space-lg) var(--space-xs);
+}
+h5,
+h6 {
+  font-size: var(--step--1);
+  margin-block: var(--space-lg) var(--space-2xs);
+}
+
+/* Don't add space above a heading that opens the page. */
+:is(h1, h2, h3, h4, h5, h6):first-child {
+  margin-block-start: 0;
+}
+
+p {
+  margin-block: 0 var(--space-md);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration-line: underline;
+  text-decoration-thickness: max(1px, 0.06em);
+  text-underline-offset: 0.15em;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  transition: color 120ms ease, text-decoration-color 120ms ease;
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+  text-decoration-color: currentColor;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+strong {
+  font-weight: 700;
+}
+
+small {
+  font-size: var(--step--1);
+  color: var(--color-muted);
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   5. Lists, quotes, rules
+   -------------------------------------------------------------------------- */
+ul,
+ol {
+  margin-block: 0 var(--space-md);
+  padding-inline-start: 1.5em;
+}
+
+li {
+  margin-block: var(--space-2xs);
+  text-wrap: pretty;
+}
+
+li > ul,
+li > ol {
+  margin-block: var(--space-2xs);
+}
+
+blockquote {
+  margin-block: var(--space-lg);
+  padding-inline-start: var(--space-md);
+  border-inline-start: 3px solid var(--color-border);
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+blockquote p:last-child {
+  margin-block-end: 0;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin-block: var(--space-2xl);
+}
+
+/* --------------------------------------------------------------------------
+   6. Code
+   -------------------------------------------------------------------------- */
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+code {
+  background-color: var(--color-surface);
+  padding: 0.15em 0.35em;
+  border-radius: var(--radius);
+}
+
+pre {
+  margin-block: 0 var(--space-md);
+  padding: var(--space-md);
+  background-color: var(--color-surface);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+pre code {
+  padding: 0;
+  background: none;
+  font-size: 1em;
+}
+
+/* --------------------------------------------------------------------------
+   7. Media, tables
+   -------------------------------------------------------------------------- */
+figure {
+  margin-block: var(--space-xl);
+  text-align: center;
+}
+
+figure img {
+  margin-inline: auto;
+  border-radius: var(--radius);
+}
+
+figcaption {
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  color: var(--color-muted);
+}
+
+table {
+  width: 100%;
+  margin-block: 0 var(--space-md);
+  border-collapse: collapse;
+  font-size: var(--step--1);
+}
+
+th,
+td {
+  padding: var(--space-xs) var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+}
+
+thead th {
+  border-bottom-width: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   8. Site components
+   -------------------------------------------------------------------------- */
+/* Post listings rendered by index.html / section.html / sitemap.html */
+.post-list {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.post-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-block: var(--space-xs);
+}
+
+.timestamp {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--color-muted);
+}
