@@ -1,0 +1,14 @@
+# The site's base URL. Change this to your real domain before deploying.
+base_url = "https://artiombn.github.io"
+title = "artiombn's Blog"
+description = "A blog about programming"
+default_language = "en"
+compile_sass = false
+build_search_index = false
+generate_feeds = false
+# Zola generates /sitemap.xml and /robots.txt automatically.
+generate_sitemap = true
+generate_robots_txt = true
+
+[markdown]
+bottom_footnotes = true

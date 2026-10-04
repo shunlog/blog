@@ -1,7 +1,9 @@
-#+title: On wrapping DSLs with more powerful languages
-#+date: <2025-09-17>
++++
+title = "On wrapping DSLs with more powerful languages"
+date = 2025-09-17
++++
 
-Recently I discovered Apple's [[https://pkl-lang.org][Pkl language]] for generating static configuration files such as JSON and YAML. I found the idea ludicrous:
+Recently I discovered Apple's [Pkl language](https://pkl-lang.org) for generating static configuration files such as JSON and YAML. I found the idea ludicrous:
 writing code in a powerful language to generate code in a weaker language,
 which is then consumed by a program written in another powerful language.
 I mean, at this point why not get rid of the weaker language altogether
@@ -13,12 +15,12 @@ Here are some more similar examples that come to mind:
 - CMake generating Make files
 - Vim's configuration language Vimscript being surpassed by "Vim9 script"
 
-What these pairs of languages have in common is that a more powerful language is being created to address the limitations of a simpler [[https://en.wikipedia.org/wiki/Domain-specific_language][domain-specific language]] (DSL).
+What these pairs of languages have in common is that a more powerful language is being created to address the limitations of a simpler [domain-specific language](https://en.wikipedia.org/wiki/Domain-specific_language) (DSL).
 
 Consider CSS, which started off as a simple and elegant DSL, more than enough for styling static HTML documents. However, as web applications have increased in complexity and the demands on CSS have grown, its limitations have transformed from a bliss to a curse for web developers.
-For example, you couldn't define variables, which meant that if you had a brand color (=#4A90E2=) that you needed to change, you would have to do a project-wide search and replace. Also, you couldn't write functions, or reusable snippets of code, which led to duplication.
+For example, you couldn't define variables, which meant that if you had a brand color (`#4A90E2`) that you needed to change, you would have to do a project-wide search and replace. Also, you couldn't write functions, or reusable snippets of code, which led to duplication.
 Fundamentally, CSS lacked means of abstractions.
-This led to the creation of [[https://en.wikipedia.org/wiki/Sass_(style_sheet_language)][Sass]], a full-fledged language that provides many means of abstraction, but compiles to CSS to maintain compatibility.
+This led to the creation of [Sass](https://en.wikipedia.org/wiki/Sass_(style_sheet_language)), a full-fledged language that provides many means of abstraction, but compiles to CSS to maintain compatibility.
 
 I think this trend can be summarized in the following way.
 First, developers create a small and simple DSL
@@ -33,11 +35,11 @@ creates a new language that provides the abstractions necessary to deal with the
 but is forced to make it compile to the DSL for compatibility reasons.
 
 I believe that this trend of wrapping a DSL with a more powerful language
-is a workaround rather than a proper solution, which leads to [[https://en.wikipedia.org/wiki/Technical_debt][technical debt]].
+is a workaround rather than a proper solution, which leads to [technical debt](https://en.wikipedia.org/wiki/Technical_debt).
 The reason for this is that It makes the stack of abstractions grow unnecessarily:
 there are now two languages instead of one
 which need to be maintained and kept compatible.
-This is an instance of [[https://en.wikipedia.org/wiki/No_Silver_Bullet][accidental complexity]] rather than essential complexity.
+This is an instance of [accidental complexity](https://en.wikipedia.org/wiki/No_Silver_Bullet) rather than essential complexity.
 
 I think that when writing code in a DSL becomes unwieldy,
 a proper solution is to either update the DSL with the needed abstractions

@@ -1,4 +1,0 @@
-#+TITLE: Posts
-
-- {{{timestamp(2025-09-19)}}} [[file:concurrency.org][Concurrency and parallelism are orthogonal]]
-- {{{timestamp(2025-09-17)}}} [[file:dsl.org][On wrapping DSLs with more powerful languages]]
