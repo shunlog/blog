@@ -4,8 +4,8 @@ date = 2025-09-19
 +++
 
 The best way to learn concurrency that I've found so far is by reading these two resources:
-- [This glossary of concurrency terms](https://slikts.github.io/concurrency-glossary/) by Reinis Ivanovs (slikts) [^slikts]
-- [The article "Programming Paradigms for Dummies"](https://www.researchgate.net/publication/241111987) by Peter Van Roy [^vanroy]
+- [This glossary of concurrency terms](https://slikts.github.io/concurrency-glossary/) by Reinis Ivanovs (slikts) [[1]](#ref-slikts)
+- [The article "Programming Paradigms for Dummies"](https://www.researchgate.net/publication/241111987) by Peter Van Roy [[2]](#ref-vanroy)
 
 Here are the main points that were new to me
 and helped me sort out the mess in my head:
@@ -41,7 +41,7 @@ The more I read different explanations, definitions, and analogies,
 the more confused I was.
 
 Then I randomly stumbled upon
-a glossary of concurrency terms [^slikts]
+a glossary of concurrency terms [[1]](#ref-slikts)
 and found it absolutely enlightening.
 It had cleared up the mess in my head
 and I could finally answer all those questions.
@@ -296,6 +296,13 @@ The Glossary contains the best definitions I've found so far,
 but as the author points out, it is just an "informal top-level overview",
 so we have to keep digging.
 
+
+## Bibliography
+
+1. <a id="ref-slikts"></a>slikts. *Concurrency Glossary: Informal definitions of terms used in concurrency modeling*. 2025. <https://github.com/slikts/concurrency-glossary> (accessed 2025-09-26).
+2. <a id="ref-vanroy"></a>Van Roy, Peter. *Programming Paradigms for Dummies: What Every Programmer Should Know*. 2012. <https://www.researchgate.net/publication/241111987>
+
+
 ## Footnotes
 
 [^6]: Indeed, in [the article](https://www.researchgate.net/publication/241111987) linked in The Glossary,
@@ -330,9 +337,3 @@ then the order in which the kids came up to the table would indeed matter
 (they would have to be sorted by height),
 and we could say they are sequential.
 But this doesn't sound like a very intuitive analogy.
-
-## Bibliography
-
-[^slikts]: slikts. *Concurrency Glossary: Informal definitions of terms used in concurrency modeling*. 2025. <https://github.com/slikts/concurrency-glossary> (accessed 2025-09-26).
-
-[^vanroy]: Van Roy, Peter. *Programming Paradigms for Dummies: What Every Programmer Should Know*. 2012. <https://www.researchgate.net/publication/241111987>
