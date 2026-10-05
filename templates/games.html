@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }}{% endblock title %}
+
+{% block content %}
+<header>
+  <h1 class="title">{{ section.title }}</h1>
+</header>
+{{ section.content | safe }}
+
+<ul class="post-list">
+  {% for game in section.extra.games %}
+  <li>
+    <a href="{{ get_url(path=game.url) }}">{{ game.title }}</a>
+    {% if game.description %}<small>{{ game.description }}</small>{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endblock content %}
