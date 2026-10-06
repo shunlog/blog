@@ -1,2 +1,6 @@
 /public
 pi-session-*.html
+
+# this dir contains symlinks to built games
+# which differ between local and server
+/static/games
