@@ -1,0 +1,72 @@
+# Caddyfile for artiombn's blog (Zola static site)
+#
+# Build the site first, then run Caddy:
+#
+#   zola build                 # writes ./public
+#   caddy run --config Caddyfile
+#
+# Replace blog.example.com with your real domain and set the same value as
+# base_url in config.toml. Caddy obtains and renews TLS certificates for you.
+
+blog.example.com {
+	root * /srv/artiombn_blog/public
+	encode zstd gzip
+
+	# ---------------------------------------------------------------------
+	# Caching
+	# ---------------------------------------------------------------------
+	# Nothing in this site has content-hashed filenames, and in particular the
+	# externally built game is served from fixed paths such as
+	#   /games/arcade-megamix/dist/main.js
+	# so we must never tell the browser to cache those "forever".
+	#
+	# `no-cache` means "you may keep a copy, but revalidate it before using
+	# it". Caddy's file_server automatically sends ETag + Last-Modified and
+	# answers a matching If-None-Match / If-Modified-Since with 304 Not
+	# Modified. When a file changes (mtime or size), the ETag changes and the
+	# browser gets the new bytes. That is the invalidation you want, with no
+	# rename / cache-busting step.
+	header Cache-Control "no-cache"
+
+	# If you later add fingerprinted assets (style.<hash>.css, etc.), you can
+	# long-cache just those instead of everything:
+	#
+	#   @immutable path *.woff2 *.woff *.png *.jpg *.svg
+	#   header @immutable Cache-Control "public, max-age=31536000, immutable"
+
+	file_server
+
+	# Serve Zola's generated 404 page.
+	handle_errors {
+		@notfound expression {err.status_code} == 404
+		rewrite @notfound /404.html
+		file_server
+	}
+}
+
+# ---------------------------------------------------------------------------
+# Alternative: serve the game straight from its own build output
+# ---------------------------------------------------------------------------
+# If you would rather not rebuild the blog every time the game changes, drop
+# the static/games/arcade-megamix symlinks from the Zola build and let Caddy
+# serve the game directory directly. The game only uses relative imports, so
+# mounting it under /games/arcade-megamix/ works as-is.
+#
+# blog.example.com {
+# 	root * /srv/artiombn_blog/public
+# 	encode zstd gzip
+# 	header Cache-Control "no-cache"
+#
+# 	handle_path /games/arcade-megamix/* {
+# 		root * /srv/arcade-megamix      # contains index.html and dist/
+# 		header Cache-Control "no-cache"
+# 		file_server
+# 	}
+#
+# 	file_server
+# 	handle_errors {
+# 		@notfound expression {err.status_code} == 404
+# 		rewrite @notfound /404.html
+# 		file_server
+# 	}
+# }
