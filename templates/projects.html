@@ -9,10 +9,10 @@
 {{ section.content | safe }}
 
 <ul class="post-list">
-  {% for game in section.extra.games %}
+  {% for project in section.extra.projects %}
   <li>
-    <a href="{{ get_url(path=game.url) }}">{{ game.title }}</a>
-    {% if game.description %}<small>{{ game.description }}</small>{% endif %}
+    <a href="{{ get_url(path=project.url) }}">{{ project.title }}</a>
+    {% if project.description %}<small>{{ project.description }}</small>{% endif %}
   </li>
   {% endfor %}
 </ul>
