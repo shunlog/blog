@@ -1,12 +1,16 @@
 # Caddyfile for artiombn's blog (Zola static site)
 #
-# Build the site first, then run Caddy:
+# Build the site first, then run Caddy. `config.toml` holds the canonical base_url
+# (the GitHub Pages user site), so a self-hosted build MUST override it:
 #
-#   zola build                 # writes ./public
+#   zola build --base-url https://artiombn.duckdns.org
 #   caddy run --config Caddyfile
 #
-# Replace blog.example.com with your real domain and set the same value as
-# base_url in config.toml. Caddy obtains and renews TLS certificates for you.
+# Forget the --base-url and the site will load, but every link, stylesheet and image
+# will point at https://shunlog.github.io instead of this host.
+#
+# Replace blog.example.com below with your real domain and pass that same value to
+# --base-url. Caddy obtains and renews TLS certificates for you.
 
 blog.example.com {
 	root * /srv/artiombn_blog/public

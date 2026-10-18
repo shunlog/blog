@@ -1,6 +1,6 @@
-# artiombn's Blog
+# shunlog's website
 
-This is a personal blog website using the [Zola](https://www.getzola.org/) SSG.
+This is a personal website using the [Zola](https://www.getzola.org/) SSG.
 
 ## Usage
 
